@@ -199,4 +199,4 @@ async def time_check():
 
 
         
-bot.run("OTIwMDE0MTI0MzkyNTEzNTg2.YbeL7A.ojAKBhWTqIt0gZf3ezpjAdhPC14")
+bot.run(open("token.txt", "r"))
