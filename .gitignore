@@ -114,4 +114,5 @@ dmypy.json
 .pyre/
 
 
-token\[01\].txt
+token\[01\].txtdebug.log 
+token.txt 
