@@ -7,6 +7,7 @@ from difflib import SequenceMatcher
 import copy
 
 
+
 bot = slash.Bot()
 
 @bot.event
@@ -199,4 +200,4 @@ async def time_check():
 
 
         
-bot.run(open("token.txt", "r"))
+bot.run(str(json.load(open("token.txt", "r"))))
