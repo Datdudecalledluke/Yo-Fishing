@@ -196,6 +196,14 @@ async def time_check():
     if int(x.strftime("%d")) != data["day"]:
         data["day"] = int(x.strftime("%d"))
         data["claimed"] = []
+        total = 0
+        for i in data["orgainsations"]:
+            if not i == "Treasury":
+                total += (data["orgainsations"][i]["balance"]*0.3)
+                data["orgainsations"][i]["balance"] = data["orgainsations"][i]["balance"]*0.97
+        for i in data["users"]:
+            total += (data["users"][i]*0.3)
+            data["users"][i] = data["users"][i]*0.97
         savedata(data)
 
 
