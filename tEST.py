@@ -1,11 +1,10 @@
 import discord
 import json
 import datetime
-from discord.ext import tasks
+from discord.ext import tasks, commands
 from discord import slash
 from difflib import SequenceMatcher
 import copy
-
 
 
 bot = slash.Bot()
@@ -170,11 +169,6 @@ async def delete_org(interaction: discord.Interaction, name : str):
     else:
         await interaction.response.send_message("Organisation does not exist" , ephemeral=True)
 
-@bot.slash_command(name="vote", description="vote", guild_id=907657508292792342)
-@slash.option("decision", description="for or against", autocomplete = autovote, required=True)
-async def vote(interaction: discord.Interaction, decision : str):
-    if str(interaction.user.id) == "762325231925854231":
-        await interaction.response.send_message(str(decision), ephemeral=False)
 
 @bot.slash_command(name="balances", description="Check your accounts and their money", guild_id=907657508292792342)
 async def balances(interaction: discord.Interaction):
@@ -197,13 +191,20 @@ async def time_check():
         data["day"] = int(x.strftime("%d"))
         data["claimed"] = []
         total = 0
-        for i in data["orgainsations"]:
+        for i in data["organisations"]:
             if not i == "Treasury":
-                total += (data["orgainsations"][i]["balance"]*0.3)
-                data["orgainsations"][i]["balance"] = data["orgainsations"][i]["balance"]*0.97
+                total += (data["organisations"][i]["balance"]*0.03)
+                print(total)
+                data["organisations"][i]["balance"] = round(data["organisations"][i]["balance"]*0.97, 2)
+                
         for i in data["users"]:
-            total += (data["users"][i]*0.3)
-            data["users"][i] = data["users"][i]*0.97
+            total += (data["users"][i]*0.03)
+            print(total)
+            data["users"][i] = round(data["users"][i]*0.97, 2)
+        data["organisations"]["Treasury"]["balance"] += total
+        print(int(data["organisations"]["Treasury"]["owner"]))
+        tOwner = await bot.fetch_user(int(data["organisations"]["Treasury"]["owner"]))
+        await tOwner.send("Collected : " + str(total) + " as wealth tax, treasury now has " + str(data["organisations"]["Treasury"]["balance"]) + "cc")
         savedata(data)
 
 
