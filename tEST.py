@@ -148,7 +148,7 @@ async def create_org(interaction: discord.Interaction, name : str):
     if not str(interaction.user.id) in data["users"]:
                 data["users"][str(interaction.user.id)] = 0
                 savedata(data)
-    if not name in list(data["organisations"].keys()):
+    if not name in list(data["organisations"].keys()) and not name == "Personal":
         data["organisations"][name] = {"balance" : 0, "owner" : str(interaction.user.id)}
         await interaction.response.send_message("Organisation " + name + " created" , ephemeral=True)
     else:
